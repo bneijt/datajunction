@@ -107,7 +107,7 @@ public class Chunker {
 		BigInteger number = new BigInteger(1, chunkDigest.digest());
 		String hash = number.toString(16);
 		hashes.add(hash);
-		File dest = new File(basePath.getAbsolutePath() + File.pathSeparator + hashToName(hash));
+		File dest = new File(basePath.getAbsolutePath() + File.separator + hashToName(hash));
 		tempFile.renameTo(dest);
 
 		//Clean up
@@ -119,8 +119,8 @@ public class Chunker {
 		return File.createTempFile("datajuncion_chunkstorage", ".tmp");
 	}
 
-	private static String hashToName(String hash) {
-		return hash.substring(0, 2) + File.pathSeparator + hash.substring(2);
+	static public String hashToName(String hash) {
+		return hash.substring(0, 2) + File.separator + hash.substring(2);
 	}
 
 }
