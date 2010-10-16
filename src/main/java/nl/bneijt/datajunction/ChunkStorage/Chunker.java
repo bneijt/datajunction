@@ -102,13 +102,18 @@ public class Chunker {
 	/**
 	 * Store temporary file at the correct position and clean up
 	 * @param tempFile
+	 * @throws IOException 
 	 */
-	private void finalize(File tempFile) {
+	private void finalize(File tempFile) throws IOException {
 		BigInteger number = new BigInteger(1, chunkDigest.digest());
 		String hash = number.toString(16);
 		hashes.add(hash);
 		File dest = new File(basePath.getAbsolutePath() + File.separator + hashToName(hash));
-		tempFile.renameTo(dest);
+		File chunkDirectory = dest.getParentFile();
+		if(! chunkDirectory.mkdirs())
+			throw new IOException("Unable to create storage directorie(s) at: " + chunkDirectory.getAbsolutePath());
+		if(! tempFile.renameTo(dest))
+			throw new IOException("Unable to move temporary file to chunk location: " + tempFile.getAbsolutePath());
 
 		//Clean up
 		chunkDigest.reset();
