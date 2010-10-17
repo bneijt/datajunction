@@ -2,9 +2,7 @@ package nl.bneijt.datajunction;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonNode;
-
-import nl.bneijt.datajunction.File;
+import nl.bneijt.datajunction.Source;
 
 
 /**
@@ -12,13 +10,11 @@ import nl.bneijt.datajunction.File;
  * @author A. Bram Neijt <bneijt@gmail.com>
  *
  */
-public interface Storage {
+public interface WritableStorage {
 
 	/**
 	 * Put a file in the storage. The file must be a DataJunction file
 	 * @throws IOException 
 	 */
-	public void put(File f) throws IOException;
-	public File get(JsonNode f);
-	 
+	public void put(Source f) throws IOException;	 
 }

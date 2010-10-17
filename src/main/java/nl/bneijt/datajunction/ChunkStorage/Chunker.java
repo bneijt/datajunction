@@ -1,8 +1,6 @@
 package nl.bneijt.datajunction.ChunkStorage;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
 
 /**
  * Take an input stream and a base directory and place the input stream onto
@@ -59,6 +56,7 @@ public class Chunker {
 			if(read <= 0)
 				break;
 
+			//While there is still space in the chunk, put the data there
 			if(written < CHUNK_SIZE)
 			{
 				toWrite = Math.min(CHUNK_SIZE - written, read);
@@ -67,6 +65,7 @@ public class Chunker {
 				chunkDigest.update(buffer, 0, toWrite);
 				fileDigest.update(buffer, 0, toWrite);
 				read -= toWrite;
+				written += toWrite;
 			}
 			if(read == 0 && written != CHUNK_SIZE)
 				continue;
@@ -89,6 +88,16 @@ public class Chunker {
 			}
 			written = read;
 		}
+		//If we have a last piece left, finish the last chunk
+		if(written > 0)
+		{
+			//Fill up last chunk with zero's as far as hashing is concerned
+			tempFileOutputStream.close();
+			byte zero = 0;
+			for(; written < CHUNK_SIZE; written++)
+				chunkDigest.update(zero);
+			finalize(tempFile);
+		}
 	}
 
 	public List<String> chunkHashes() {
@@ -105,6 +114,7 @@ public class Chunker {
 	 * @throws IOException 
 	 */
 	private void finalize(File tempFile) throws IOException {
+		assert (false);
 		BigInteger number = new BigInteger(1, chunkDigest.digest());
 		String hash = number.toString(16);
 		hashes.add(hash);
@@ -125,7 +135,7 @@ public class Chunker {
 	}
 
 	static public String hashToName(String hash) {
-		return hash.substring(0, 2) + File.separator + hash.substring(2);
+		return hash.substring(0, 2) + File.separator + hash;
 	}
 
 }

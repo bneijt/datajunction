@@ -1,6 +1,8 @@
 package nl.bneijt.datajunction.ChunkStorage;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,12 +18,15 @@ public class ChunkerTest {
 	}
 	@Test
 	public void testEmptyFileStorage() throws Exception {
-		File baseDir = new File("/tmp/test");
+		File baseDir = File.createTempFile("chunker", "test");
+		baseDir.delete();
 		Chunker c = new Chunker(new FileInputStream("/etc/services"), baseDir);
 		c.run();
+		assertThat(c.chunkHashes().size(), greaterThan(0));
 		assertEquals( "After chunking a file, the base directory should exist", true, baseDir.exists());
-
-		//assertEquals(true, )
-
+		//TODO Test whether there is at least one chunk in the directories
+		//TODO Test for a chunk smaller then the maximum chunk size
+		//TODO Test that no chunk is larger then the maximum size
+		//TODO Clean up temporary files
 	}
 }
