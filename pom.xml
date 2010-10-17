@@ -12,11 +12,18 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hamcrest.version>1.1</hamcrest.version>
-        <jackson.version>1.6.1</jackson.version>
+		<hamcrest.version>1.1</hamcrest.version>
+		<jackson.version>1.6.1</jackson.version>
+		<commonsIO.version>1.3.2</commonsIO.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commonsIO.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -28,11 +35,11 @@
 			<artifactId>jackson-core-lgpl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-lgpl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>

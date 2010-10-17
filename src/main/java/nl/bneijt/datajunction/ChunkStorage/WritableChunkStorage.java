@@ -46,6 +46,7 @@ public class WritableChunkStorage implements WritableStorage {
 			List<String> chunkHashes = c.chunkHashes();
 			for(String hash : chunkHashes)
 				list.add(hash);
+			//TODO Store metadata
 			
 		}
 		catch(NoSuchAlgorithmException e) {

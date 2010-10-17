@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 
@@ -27,6 +28,6 @@ public class ChunkerTest {
 		//TODO Test whether there is at least one chunk in the directories
 		//TODO Test for a chunk smaller then the maximum chunk size
 		//TODO Test that no chunk is larger then the maximum size
-		//TODO Clean up temporary files
+		FileUtils.deleteDirectory(baseDir);
 	}
 }
