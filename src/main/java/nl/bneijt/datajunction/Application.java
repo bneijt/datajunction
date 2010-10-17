@@ -9,7 +9,7 @@ public class Application
     {
         System.out.println( "Take a source file and output it into a target directory in chunks. Store metadata in json." );
         //Start a chunk storage in /tmp
-        WritableStorage storage = new nl.bneijt.datajunction.ChunkStorage.Output("/tmp/testStorage");
+        WritableStorage storage = new nl.bneijt.datajunction.ChunkStorage.WritableChunkStorage("/tmp/testStorage");
         Source f = new NativeFile("/etc/ld.so.cache");
         try {
 			storage.put(f);

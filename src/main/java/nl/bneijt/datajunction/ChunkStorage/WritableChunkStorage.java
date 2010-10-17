@@ -17,10 +17,10 @@ import org.codehaus.jackson.node.ObjectNode;
  * @author A. Bram Neijt <bneijt@gmail.com>
  *
  */
-public class Output implements WritableStorage {
+public class WritableChunkStorage implements WritableStorage {
 	private File basePath;
 
-	public Output(String rootPath) {
+	public WritableChunkStorage(String rootPath) {
 		basePath = new File(rootPath);
 		if(!basePath.exists())
 			basePath.mkdirs();
