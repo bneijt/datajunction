@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.File;
+
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
 
 public class NativeFile implements nl.bneijt.datajunction.Source {
@@ -18,7 +20,8 @@ public class NativeFile implements nl.bneijt.datajunction.Source {
 
 	@Override
 	public ObjectNode meta() {
-		throw new RuntimeException("Bram has not implemented this method yet.");
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.createObjectNode();
 	}
 
 }

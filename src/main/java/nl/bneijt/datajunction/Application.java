@@ -13,6 +13,7 @@ public class Application
         Source f = new NativeFile("/etc/ld.so.cache");
         try {
 			storage.put(f);
+			System.out.println(f.meta().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

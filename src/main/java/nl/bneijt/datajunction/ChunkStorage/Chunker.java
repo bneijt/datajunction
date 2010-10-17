@@ -114,7 +114,6 @@ public class Chunker {
 	 * @throws IOException 
 	 */
 	private void finalize(File tempFile) throws IOException {
-		assert (false);
 		BigInteger number = new BigInteger(1, chunkDigest.digest());
 		String hash = number.toString(16);
 		hashes.add(hash);
