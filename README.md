@@ -30,5 +30,8 @@ Current focus: easy backup, care-free backup.
 - Add storage access capabilities
 - Create a GUI
 
+....
+
+I'm getting the idea that I may be re-implementing large parts of something like gvfs. Maybe I can find a library to fit a cool utility and a few extra modules upon to get the same functionality??
 
 
