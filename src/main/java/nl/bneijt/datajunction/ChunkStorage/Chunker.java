@@ -41,7 +41,7 @@ public class Chunker {
 		chunkDigest = MessageDigest.getInstance("SHA1");
 		fileDigest = MessageDigest.getInstance("SHA1");
 
-		
+
 		File tempFile = createTempFile();
 		FileOutputStream tempFileOutputStream = new FileOutputStream(tempFile);
 		int written = 0;
@@ -79,7 +79,7 @@ public class Chunker {
 			//TODO Make sure the file is only readable for this process for security
 			tempFile = createTempFile();
 			tempFileOutputStream = new FileOutputStream(tempFile); //TODO optimize with outputstream.open??
-			
+
 			//Write remainder if needed
 			if(read > 0)			{
 				tempFileOutputStream.write(buffer, toWrite, read);
@@ -107,7 +107,7 @@ public class Chunker {
 		BigInteger number = new BigInteger(1, chunkDigest.digest());
 		return number.toString(16);
 	}
-	
+
 	/**
 	 * Store temporary file at the correct position and clean up
 	 * @param tempFile
@@ -119,8 +119,9 @@ public class Chunker {
 		hashes.add(hash);
 		File dest = new File(basePath.getAbsolutePath() + File.separator + hashToName(hash));
 		File chunkDirectory = dest.getParentFile();
-		if(! chunkDirectory.mkdirs())
-			throw new IOException("Unable to create storage directorie(s) at: " + chunkDirectory.getAbsolutePath());
+		if(! chunkDirectory.exists())
+			if(! chunkDirectory.mkdirs())
+				throw new IOException("Unable to create storage directorie(s) at: " + chunkDirectory.getAbsolutePath());
 		if(! tempFile.renameTo(dest))
 			throw new IOException("Unable to move temporary file to chunk location: " + tempFile.getAbsolutePath());
 
