@@ -2,9 +2,12 @@ package nl.bneijt.datajunction.ChunkStorage;
 
 import nl.bneijt.datajunction.WritableStorage;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -38,20 +41,46 @@ public class WritableChunkStorage implements WritableStorage {
 		try {
 			c.run();
 			//Add storage specific metadata to file object
-			ObjectNode meta = file.meta().putObject("ChunkStorage");
+			ObjectNode fileMeta = file.meta();
+			ObjectNode meta = fileMeta.putObject("ChunkStorage");
 			meta.put("fileHash", c.fileHash());
-			
+
 			//Add chunkHashes as a list
 			ArrayNode list = meta.putArray("chunkHashes");
 			List<String> chunkHashes = c.chunkHashes();
 			for(String hash : chunkHashes)
 				list.add(hash);
-			//TODO Store metadata
-			
+
+			//Metadata generation
+			String metadata = fileMeta.toString();
+			//Digest metadata to find out which name it should have
+			String sha1sum = sha1sum(metadata);
+			File metaDataFile = metaFileFromHash(sha1sum);
+			File parent = metaDataFile.getParentFile();
+			if(!parent.exists())
+				parent.mkdirs();
+
+			FileOutputStream out = new FileOutputStream(metaDataFile);
+			out.write(metadata.getBytes());
+			out.close();
 		}
 		catch(NoSuchAlgorithmException e) {
 			throw new IOException(e.toString());
 		}
+
+	}
+
+
+	private String sha1sum(String data) throws NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance("SHA1");
+		digest.update(data.getBytes());
+		BigInteger number = new BigInteger(1, digest.digest());
+		return number.toString(16);
+	}
+
+
+	private File metaFileFromHash(String sha1sum) {
+		return new File(basePath + File.separator + "meta" + File.separator + sha1sum.substring(0, 2) + File.separator + sha1sum + ".json");
 
 	}
 
