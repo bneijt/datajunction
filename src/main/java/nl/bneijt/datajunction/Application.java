@@ -1,5 +1,6 @@
 package nl.bneijt.datajunction;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -16,10 +17,16 @@ public class Application
         }
         	//Start a chunk storage in /tmp
         WritableStorage storage = new nl.bneijt.datajunction.ChunkStorage.WritableChunkStorage("/tmp/testStorage");
-        Source f = new NativeFile(args[0]);
+        File f = new File(args[0]);
+        if(!f.exists())
+        {
+        	System.out.println("File not found: " + args[0]);
+        	return;
+        }
         try {
-			storage.put(f);
-			System.out.println(f.meta().toString());
+            Source s = new NativeFile(args[0]);
+			storage.put(s);
+			System.out.println(s.meta().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

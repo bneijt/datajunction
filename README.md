@@ -1,10 +1,6 @@
 Datajunction
 ============
 
-> How do I handle symlinks in Java??
-> Maybe it is impossible to write system utilities in Java...
-
-
 Small back-up system. The idea is to have various input sources (like directories) map onto different storage locations (like web servers, DHTs, and other directories).
 
 The first obtainable goal will be to have a commandline utility which can be used to back up files into a chunk based directory structure on a separate disk. This will be the ChunkStorage, which will store metadata in a json document and split the attachment over multiple sha1sum named files.
@@ -35,7 +31,5 @@ Current focus: easy backup, care-free backup.
 - Create a GUI
 
 ....
-
-I'm getting the idea that I may be re-implementing large parts of something like gvfs. Maybe I can find a library to fit a cool utility and a few extra modules upon to get the same functionality??
 
 
