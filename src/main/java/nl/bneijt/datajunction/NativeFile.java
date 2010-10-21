@@ -7,7 +7,11 @@ import java.io.File;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
+import org.jruby.ext.posix.FileStat;
 import org.jruby.ext.posix.JavaFileStat;
+import org.jruby.ext.posix.LinuxFileStat;
+import org.jruby.ext.posix.POSIX;
+import org.jruby.ext.posix.POSIXFactory;
 
 public class NativeFile implements nl.bneijt.datajunction.Source {
 	final private File file;
@@ -23,8 +27,8 @@ public class NativeFile implements nl.bneijt.datajunction.Source {
 		ObjectMapper mapper = new ObjectMapper();
 		metadata = mapper.createObjectNode();
 		metadata.put("filename", file.getAbsolutePath());
-		JavaFileStat fs = new JavaFileStat(null, null);
-		fs.setup(file.getAbsolutePath());
+		POSIX p = POSIXFactory.getPOSIX(new JavaPosixHandler(), false);
+		FileStat fs = p.lstat(file.getAbsolutePath());
 		
 		//Add JavaFileStat metadata
 		metadata.put("dev", fs.dev()); // dev() 
