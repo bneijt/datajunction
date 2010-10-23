@@ -8,6 +8,8 @@ import math
 
 
 def main():
+    IGNORE_LARGER_THEN = 5 * 1024 * 1024 #bytes
+    IGNORE_SMALLER_THEN = 1024 #bytes
     sizes = []
 
     queue = ['/']
@@ -25,10 +27,12 @@ def main():
                 #Permission denied
                 pass
             continue
+        if not os.path.isfile(path):
+            continue
         size = os.path.getsize(path)
-        sizes.append(size)
+        if size > IGNORE_SMALLER_THEN and size < IGNORE_LARGER_THEN:
+            sizes.append(size)
     
-
     # the histogram of the data
     mean = numpy.mean(sizes)
     std = numpy.std(sizes)
@@ -37,11 +41,11 @@ def main():
     n, bins, patches = plt.hist(sizes, 50, facecolor='green', alpha=0.75)
     plt.axvspan(max(0, mean - std), mean + std, alpha=0.2)
     
-    plt.xlabel('File size')
+    plt.xlabel('File size (in bytes)')
     plt.ylabel('Count')
-    plt.title(r'$n=%i$ $\mu=%d$ $median=%i$ $\sigma=%i$' % (len(sizes), mean, median, std))
+    plt.title(r'$n=%i$ $\mu=%d$ $median=%i$ $\sigma=%i$ $\mu+\sigma=%i$' % (len(sizes), mean, median, std, mean + std))
     plt.grid(True)
-    plt.savefig("/tmp/graph.png")
+    plt.savefig("averageFileSizeGraph.png")
 
 
 
