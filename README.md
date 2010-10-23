@@ -23,6 +23,7 @@ In the future it should be possible to replicate data from various locations to 
 Development plan
 ----------------
 Current focus: easy backup, care-free backup.
+- Get maven to use openjdk-7 (needed for nio support)
 - Build a small CLI to do back-ups into chunks in a directory
 - Build/find a metadata/data separation system that is flexible enough to keep track of everything I want.
 - Add watch/trigger functionality (when disk is inserted, backup)
