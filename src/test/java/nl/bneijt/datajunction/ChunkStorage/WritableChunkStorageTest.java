@@ -22,7 +22,7 @@ public class WritableChunkStorageTest {
 		s.put(new NativeFile("/etc/services"));
 		
 		//Clean up
-		//FileUtils.deleteDirectory(rootPath);
+		FileUtils.deleteDirectory(rootPath);
 	}
 	
 }

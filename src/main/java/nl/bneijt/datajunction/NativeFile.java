@@ -1,9 +1,7 @@
 package nl.bneijt.datajunction;
 
-import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
@@ -12,7 +10,6 @@ import java.nio.file.attribute.Attributes;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
-import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
