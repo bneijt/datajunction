@@ -1,0 +1,11 @@
+output {
+    module: nl.bneijt.datajunction.ChunkStorage.WritableChunkStorage
+    name: tempOut
+    configuration: {
+        directory: /tmp/tempOutTest
+    }
+}
+
+input {
+    module: 
+}

@@ -7,7 +7,6 @@ import org.codehaus.jackson.JsonNode;
  * @author A. Bram Neijt <bneijt@gmail.com>
  *
  */
-public interface ReadableStorage {
-	public Source get(JsonNode metaData) throws java.io.FileNotFoundException;
-
+public interface ReadableStorage extends Iterable<Source> {
+	//Possibly in the future public Source query(JsonNode metaData) throws java.io.FileNotFoundException;
 }

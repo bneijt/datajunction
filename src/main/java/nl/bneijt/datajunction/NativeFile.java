@@ -24,6 +24,7 @@ public class NativeFile implements nl.bneijt.datajunction.Source {
 		file = new java.io.File(fileName);
 		if(!file.exists())
 			throw new FileNotFoundException("Can not construct a NativeFile for non-existing: " + file.getAbsolutePath());
+
 		//Initialize metadata
 		ObjectMapper mapper = new ObjectMapper();
 		metadata = mapper.createObjectNode();

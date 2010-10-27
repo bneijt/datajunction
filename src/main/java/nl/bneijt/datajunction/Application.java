@@ -1,13 +1,25 @@
 package nl.bneijt.datajunction;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+
+import nl.bneijt.xdg.Configuration;
+
+import org.apache.commons.io.FileUtils;
+import org.yaml.snakeyaml.Yaml;
 
 
 public class Application 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws FileNotFoundException
     {
+    	InputStream input = new FileInputStream(new File(Configuration.BDConfigHome() + "/datajunction/default.yaml"));
+        Yaml yaml = new Yaml();
+        Object data = yaml.load(input);
+    	    	
         System.out.println( "Take a source file and output it into a target directory in chunks. Store metadata in json." );
 
         if(args.length < 1)

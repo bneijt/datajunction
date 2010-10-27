@@ -25,6 +25,8 @@ Development plan
 Current focus: easy backup, care-free backup.
 - Get maven to use openjdk-7 (needed for nio support)
 - Build a small CLI to do back-ups into chunks in a directory
+- Add a yaml configuration file to describe the connections and load
+  the storage packages dynamically.
 - Build/find a metadata/data separation system that is flexible enough to keep track of everything I want.
 - Add watch/trigger functionality (when disk is inserted, backup)
 - Add remote storage capabilities
