@@ -1,0 +1,6 @@
+[
+    {
+        "type": "chunkstorage",
+        "storagePath": "/tmp/chunkTest"
+    }
+]
