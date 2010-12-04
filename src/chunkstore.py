@@ -16,7 +16,7 @@ class ChunkStorage:
 
     def getMetadata(self, fileName):
         md = {}
-        md['ctime'] = datetime.datetime.utcnow().isoformat() #Time the entry was created
+        md['ctime'] = metadata.dateString(datetime.datetime.utcnow()) #Time the entry was created
         md['stat'] = metadata.stat(fileName)
         md['location'] = metadata.location(fileName)
         return md
@@ -35,7 +35,7 @@ class ChunkStorage:
             h = hashlib.sha1()
             h.update(read)
             completeDigest.update(read)
-            digest = h.hexdigest()
+            digest = unicode(h.hexdigest())
             chunkSums.append(digest)
             #Store chunk
             chunkFileName = os.path.join(self.storagePath, 'data', digest[:2], digest)
@@ -57,6 +57,6 @@ class ChunkStorage:
         
         md = self.getMetadata(fileName)
         md['chunks'] = chunkSums
-        md['digest_sha1'] = completeDigest.hexdigest()
-        metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], '%s.json' % digest)
+        md['digest_sha1'] = unicode(completeDigest.hexdigest())
+        metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], u'%s.json' % digest)
         metadata.appendMeta(metadataFileName, md)
