@@ -2,7 +2,7 @@
 import hashlib
 import os
 import json
-
+import meta
 
 class ChunkStorage:
     def __init__(self, storagePath = None):
@@ -14,11 +14,16 @@ class ChunkStorage:
     def name(self):
         return 'ChunkStorage at %s' % self.storagePath
     def getMetadata(self, fileName):
-        return {'filename': fileName}
+        m = meta.Meta(fileName)
+        metadata = {}
+        metadata['stat'] = m.stat()
+        metadata['location'] = m.location()
+        return metadata
     
     def store(self, fileName):
-        assert self.storagePath
-        assert os.path.exists(self.storagePath)
+        assert self.storagePath #We muset have a storagepath
+        assert fileName[0] ==  '/' #fileName should be absolute path
+        assert os.path.exists(self.storagePath) #Storepath must exist, otherwise we might create it later on.
         i = file(fileName)
         chunkSums = []
         completeDigest = hashlib.sha1()
@@ -38,6 +43,10 @@ class ChunkStorage:
                     os.makedirs(outputDir)
                 file(chunkFileName, 'w').write(read)
                 del outputDir
+            else:
+                #If the file does exist, do some sanity checks
+                if not os.path.getsize(chunkFileName) == len(read):
+                    raise Exception('Chunk with name %s already exists but it does not have the same size as the chunk I just read (with the same name) %i on disk, %i read' % (chunkFileName, os.path.getsize(chunkFileName), len(read)))
             #detect EOF
             if len(read) < self.CHUNK_SIZE:
                 break

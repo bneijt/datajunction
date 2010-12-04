@@ -35,6 +35,7 @@ def main(argv):
     outputs = loadOutputs()
     for fileName in argv[1:]:
         print fileName
+        fileName = os.path.abspath(fileName)
         for output in outputs:
             print ' >', output.name()
             output.store(fileName)
