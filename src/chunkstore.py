@@ -2,7 +2,7 @@
 import hashlib
 import os
 import json
-import meta
+import metadata
 
 class ChunkStorage:
     def __init__(self, storagePath = None):
@@ -14,16 +14,17 @@ class ChunkStorage:
     def name(self):
         return 'ChunkStorage at %s' % self.storagePath
     def getMetadata(self, fileName):
-        m = meta.Meta(fileName)
         metadata = {}
-        metadata['stat'] = m.stat()
-        metadata['location'] = m.location()
+        metadata['stat'] = metadata.stat(fileName)
+        metadata['location'] = metadata.location(fileName)
         return metadata
     
     def store(self, fileName):
         assert self.storagePath #We muset have a storagepath
         assert fileName[0] ==  '/' #fileName should be absolute path
         assert os.path.exists(self.storagePath) #Storepath must exist, otherwise we might create it later on.
+        if os.isdir(fileName):
+            raise Exception('There is no code to handle directories yet')
         i = file(fileName)
         chunkSums = []
         completeDigest = hashlib.sha1()
@@ -59,4 +60,4 @@ class ChunkStorage:
         outputDir = os.path.dirname(metadataFileName)
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
-        file(metadataFileName, 'w').write(json.dumps(metadata))
+        file(metadataFileName, 'a').write(json.dumps(metadata))
