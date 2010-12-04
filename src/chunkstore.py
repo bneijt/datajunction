@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import hashlib
 import os
-import json
 import metadata
+import datetime
 
 class ChunkStorage:
     def __init__(self, storagePath = None):
@@ -13,17 +13,19 @@ class ChunkStorage:
         
     def name(self):
         return 'ChunkStorage at %s' % self.storagePath
+
     def getMetadata(self, fileName):
-        metadata = {}
-        metadata['stat'] = metadata.stat(fileName)
-        metadata['location'] = metadata.location(fileName)
-        return metadata
+        md = {}
+        md['ctime'] = datetime.datetime.utcnow().isoformat() #Time the entry was created
+        md['stat'] = metadata.stat(fileName)
+        md['location'] = metadata.location(fileName)
+        return md
     
     def store(self, fileName):
         assert self.storagePath #We muset have a storagepath
         assert fileName[0] ==  '/' #fileName should be absolute path
         assert os.path.exists(self.storagePath) #Storepath must exist, otherwise we might create it later on.
-        if os.isdir(fileName):
+        if os.path.isdir(fileName):
             raise Exception('There is no code to handle directories yet')
         i = file(fileName)
         chunkSums = []
@@ -53,11 +55,8 @@ class ChunkStorage:
                 break
         del read
         
-        metadata = self.getMetadata(fileName)
-        metadata['chunks'] = chunkSums
-        metadata['digest_sha1'] = completeDigest.hexdigest()
+        md = self.getMetadata(fileName)
+        md['chunks'] = chunkSums
+        md['digest_sha1'] = completeDigest.hexdigest()
         metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], '%s.json' % digest)
-        outputDir = os.path.dirname(metadataFileName)
-        if not os.path.exists(outputDir):
-            os.makedirs(outputDir)
-        file(metadataFileName, 'a').write(json.dumps(metadata))
+        metadata.appendMeta(metadataFileName, md)

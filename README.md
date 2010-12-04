@@ -21,13 +21,9 @@ In the future it should be possible to replicate data from various locations to 
 
 Development plan
 ----------------
-Current focus: easy backup, care-free backup.
+Current focus: easy backup, care-free backup. Open format, not tar (need support for ACL etc.)
 - Build a small CLI to do back-ups into chunks in a directory
-- Add a yaml configuration file to describe the connections and load
-  the storage packages dynamically.
-- Build/find a metadata/data separation system that is flexible enough to keep track of everything I want.
-- Encapsulate everything into [0mq](http://www.zeromq.org/) clients
-- Add watch/trigger functionality (when disk is inserted, backup)
+- Add watch/trigger functionality? (when disk is inserted, backup)
 - Add remote storage capabilities
 - Add storage access capabilities
 - Create a GUI
