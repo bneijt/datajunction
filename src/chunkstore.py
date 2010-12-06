@@ -26,7 +26,7 @@ class ChunkStorage:
         assert fileName[0] ==  '/' #fileName should be absolute path
         assert os.path.exists(self.storagePath) #Storepath must exist, otherwise we might create it later on.
         if os.path.isdir(fileName):
-            raise Exception('There is no code to handle directories yet')
+            raise Exception('There is no code to handle directories yet!')
         i = file(fileName)
         chunkSums = []
         completeDigest = hashlib.sha1()

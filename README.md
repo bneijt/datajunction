@@ -22,12 +22,6 @@ In the future it should be possible to replicate data from various locations to 
 Development plan
 ----------------
 Current focus: easy backup, care-free backup. Open format, not tar (need support for ACL etc.)
-- Build a small CLI to do back-ups into chunks in a directory
-- Add watch/trigger functionality? (when disk is inserted, backup)
-- Add remote storage capabilities
-- Add storage access capabilities
-- Create a GUI
-
-....
+see: TODO
 
 
