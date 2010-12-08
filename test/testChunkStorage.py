@@ -2,7 +2,7 @@
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../src')) #UGLY!
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src/datajunction')) #UGLY!
 import chunkstore
 
 import unittest
