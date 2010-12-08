@@ -77,8 +77,6 @@ def location(fileName):
         u'filename': unicode(fileName),
         u'realpath': unicode(os.path.realpath(fileName)),
         }
-    if os.path.islink(fileName):
-        meta[u'link'] = os.readlink(fileName)
 
     return meta
 

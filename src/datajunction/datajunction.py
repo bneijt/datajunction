@@ -29,6 +29,6 @@ def loadOutputs():
             outputs.append(ot)
         except Exception, e:
             print 'Failed to initialize', ot.name()
-            print '\t%s' str(e)
+            print '  %s' % str(e)
     return outputs
 
