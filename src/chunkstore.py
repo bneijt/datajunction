@@ -20,13 +20,52 @@ class ChunkStorage:
         md['stat'] = metadata.stat(fileName)
         md['location'] = metadata.location(fileName)
         return md
-    
+
     def store(self, fileName):
         assert self.storagePath #We muset have a storagepath
         assert fileName[0] ==  '/' #fileName should be absolute path
         assert os.path.exists(self.storagePath) #Storepath must exist, otherwise we might create it later on.
+        #Broken symlinks do not exist, so no: assert os.path.exists(fileName)
+        if os.path.islink(fileName):
+            self.storeLink(fileName)
+            return
         if os.path.isdir(fileName):
-            raise Exception('There is no code to handle directories yet!')
+            self.storeDirectory(fileName)
+            return
+        if os.path.isfile(fileName):
+            self.storeFile(fileName)
+            return
+        raise Exception('Unable to store file in %s\n\tFilename: %s' % (self.name(), fileName))
+    
+    def storeLink(self, fileName):
+        '''Pricate specialization function
+            Links are stored much like directories. Their type is link
+        '''
+        assert os.path.islink(fileName)
+        md = self.getMetadata(fileName)
+        md['type'] = 'link'
+        md['target'] = os.readlink(fileName)
+        digest = unicode(hashlib.sha1(fileName).hexdigest())
+        metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
+        metadata.appendMeta(metadataFileName, md)
+
+
+    def storeDirectory(self, fileName):
+        '''Private specialization function
+            Directories are stored by using the path to the file as input for the hash function.
+            All the hashed files are placed in a special directory called "tree" because
+            they only describe parts of the file system tree.
+        '''
+        assert os.path.isdir(fileName)
+        md = self.getMetadata(fileName)
+        md['type'] = 'directory'
+        digest = unicode(hashlib.sha1(fileName).hexdigest())
+        metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
+        metadata.appendMeta(metadataFileName, md)
+        
+
+    def storeFile(self, fileName):
+        '''Private specialization function'''
         i = file(fileName)
         chunkSums = []
         completeDigest = hashlib.sha1()
@@ -56,6 +95,7 @@ class ChunkStorage:
         del read
         
         md = self.getMetadata(fileName)
+        md['type'] = 'file'
         md['chunks'] = chunkSums
         md['digest_sha1'] = unicode(completeDigest.hexdigest())
         metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], u'%s.json' % digest)

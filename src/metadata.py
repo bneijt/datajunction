@@ -5,7 +5,8 @@ import json
 import types
 import copy
 
-def delta(last, new):
+
+def delta(last, new): #TODO Find a library with this functionality
     '''Return the delta between last and new'''
     if isinstance(last, str):
         raise Exception("Delta requested with type 'str', you should be using unicode for value: %s" % last)
