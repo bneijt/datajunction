@@ -4,14 +4,15 @@ import datetime
 import json
 import types
 import copy
-
+import pwd
+import grp
 
 def delta(last, new): #TODO Find a library with this functionality
     '''Return the delta between last and new'''
     if isinstance(last, str):
-        raise Exception("Delta requested with type 'str', you should be using unicode for value: %s" % last)
+        raise Exception("Delta requested with last type 'str', you should be using unicode for value: %s" % last)
     if isinstance(new, str):
-        raise Exception("Delta requested with type 'str', you should be using unicode for value: %s" % last)
+        raise Exception("Delta requested with new type 'str', you should be using unicode for value: %s" % new)
 
     if not type(last) == type(new):
         return new
@@ -86,21 +87,23 @@ def dateString(dtime):
 def stat(fileName):
     stat = os.lstat(fileName) #TODO Add support for other platforms (st_creator etc)
     meta = {}
-    meta[u'size'] = stat.st_size
-    meta[u'uid'] = stat.st_uid
-    meta[u'gid'] = stat.st_gid
+    meta['size'] = stat.st_size
+    meta['uid'] = stat.st_uid
+    meta['uname'] = unicode(pwd.getpwuid(stat.st_uid).pw_name)
+    meta['gid'] = stat.st_gid
+    meta['gname'] = unicode(grp.getgrgid(stat.st_gid).gr_name)
     #TODO Time to universal time translation
-    meta[u'atime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_atime))
-    meta[u'ctime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_ctime))
-    meta[u'mtime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_mtime))
+    meta['atime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_atime))
+    meta['ctime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_ctime))
+    meta['mtime'] = dateString(datetime.datetime.utcfromtimestamp(stat.st_mtime))
     if int(stat.st_dev) == stat.st_dev:
-        meta[u'dev'] = int(stat.st_dev)
+        meta['dev'] = int(stat.st_dev)
     else:
-        meta[u'dev'] = stat.st_dev
+        meta['dev'] = stat.st_dev
 
-    meta[u'ino'] = stat.st_ino
-    meta[u'mode']  = stat.st_mode
-    meta[u'nlink'] = stat.st_nlink
+    meta['ino'] = stat.st_ino
+    meta['mode']  = stat.st_mode
+    meta['nlink'] = stat.st_nlink
     return meta
 
 
