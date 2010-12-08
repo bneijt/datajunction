@@ -7,9 +7,11 @@ import datetime
 class ChunkStorage:
     def __init__(self, storagePath = None):
         self.storagePath = storagePath
+        self.CHUNK_SIZE = 1024 * 1024
+
+    def init(self):
         if not os.path.exists(self.storagePath):
             raise Exception('Could not find given storage path for chunkstorage: %s' % self.storagePath)
-        self.CHUNK_SIZE = 1024 * 1024
         
     def name(self):
         return 'ChunkStorage at %s' % self.storagePath

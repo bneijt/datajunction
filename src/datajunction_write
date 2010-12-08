@@ -1,0 +1,21 @@
+#!/usr/bin/python
+import sys
+import json
+import os
+
+import datajunction.datajunction
+
+def main(argv):
+    outputs = datajunction.datajunction.loadOutputs()
+    for fileName in argv[1:]:
+        print fileName
+        fileName = os.path.abspath(fileName)
+        for output in outputs:
+            print ' >', output.name()
+            output.store(fileName)
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
+
+
