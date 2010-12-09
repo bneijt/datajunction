@@ -12,7 +12,7 @@ setup(
     url='http://www.logfish.net/pr/datajunction',
     packages=['datajunction'],
     package_dir={'datajunction': 'src/datajunction'},
-    scripts=['src/datajunction_write' ],
+    scripts=['src/dataj' ],
     license = __license__,
     )
 
