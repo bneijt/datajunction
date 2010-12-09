@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='datajunction',
-    version='0.1',
+    version='0.1.1',
     description='Backup utility using hash based chunks and json metadata',
     author='A. Bram Neijt',
     author_email='bram@neijt.nl',
