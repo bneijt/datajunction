@@ -4,15 +4,19 @@ import json
 import os
 import argparse
 
-import datajunction.datajunction
+import datajunction
 
 def main(argv):
 
-    parser = argparse.ArgumentParser(description='Datajunction backup utility.')
-    parser.add_argument('files', metavar='F', type=str, nargs='+',
+    parser = argparse.ArgumentParser(description = 'Datajunction backup utility.')
+    parser.add_argument('files', metavar = 'F', type = str, nargs = '+',
                    help='files to write to output storages')
+    parser.add_argument('--version', help = 'output version number',
+        action = 'version',
+        version = datajunction.__version__)
 
     args = parser.parse_args()
+
     outputs = datajunction.datajunction.loadOutputs()
     for fileName in args.files:
         print fileName
