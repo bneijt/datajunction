@@ -1,6 +1,5 @@
-- Add commandline argument support
-- Add support for directories (dir metadata storage)
 - Add support for device files and other weird ext4 files
+- Add logging support
 - Add support for various modes
 - Add error handling for non-existing storage paths
 - ... release 1.0
