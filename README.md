@@ -5,6 +5,12 @@ Small back-up system. The idea is to have various input sources (like directorie
 
 The first obtainable goal will be to have a commandline utility which can be used to back up files into a chunk based directory structure on a separate disk. This will be the ChunkStorage, which will store metadata in a json document and split the attachment over multiple sha1sum named files.
 
+Usage
+=====
+Currently, do not realy on this system to restore your files. There is no restore utility yet! To store, use something like:
+
+> find -P program -print0 |xargs --max-args 1024 -0 dataj
+
 Storage systems
 ===============
 
