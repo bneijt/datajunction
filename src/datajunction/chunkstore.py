@@ -14,7 +14,7 @@ class ChunkStorage:
             raise Exception('Could not find given storage path for chunkstorage: %s' % self.storagePath)
         
     def name(self):
-        return 'ChunkStorage at %s' % self.storagePath
+        return u'ChunkStorage at %s' % self.storagePath
 
     def getMetadata(self, fileName):
         md = {}
@@ -45,7 +45,7 @@ class ChunkStorage:
         '''
         assert os.path.islink(fileName)
         md = self.getMetadata(fileName)
-        md['type'] = 'link'
+        md['type'] = u'link'
         md['target'] = os.readlink(fileName)
         digest = unicode(hashlib.sha1(fileName).hexdigest())
         metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
@@ -60,7 +60,7 @@ class ChunkStorage:
         '''
         assert os.path.isdir(fileName)
         md = self.getMetadata(fileName)
-        md['type'] = 'directory'
+        md['type'] = u'directory'
         digest = unicode(hashlib.sha1(fileName).hexdigest())
         metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
         metadata.appendMeta(metadataFileName, md)
@@ -97,7 +97,7 @@ class ChunkStorage:
         del read
         
         md = self.getMetadata(fileName)
-        md['type'] = 'file'
+        md['type'] = u'file'
         md['chunks'] = chunkSums
         md['digest_sha1'] = unicode(completeDigest.hexdigest())
         metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], u'%s.json' % digest)
