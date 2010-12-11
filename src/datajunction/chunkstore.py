@@ -5,7 +5,9 @@ import metadata
 import datetime
 
 class ChunkStorage:
-    def __init__(self, storagePath = None):
+    def __init__(self,
+            storagePath = None,
+            ):
         self.storagePath = storagePath
         self.CHUNK_SIZE = 1024 * 1024
 

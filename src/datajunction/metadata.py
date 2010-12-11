@@ -42,6 +42,9 @@ def delta(last, new): #TODO Find a library with this functionality
         return None
     return new
 
+def loadMeta(fileName):
+    return [json.loads(line) for line in file(fileName).readlines()]
+
 def appendMeta(fileName, constMetaData, unique = False):
     '''Return the metadata for a given file, always a list of json maps with file metadata. The last entry is always a list
     of object data usage (when the object was stored)
@@ -57,21 +60,14 @@ def appendMeta(fileName, constMetaData, unique = False):
     outputDir = os.path.dirname(fileName)
     if not os.path.exists(outputDir):
         os.makedirs(outputDir)
-    if os.path.exists(fileName):
-        meta = json.load(file(fileName))
-    else:
-        meta = []
-    if not isinstance(meta, list):
-        raise Exception("Metadata should be a list, corruption in metadata detected?\n\tFile name: %s" % fileName)
-    #TODO: Append only what is different
-    if len(meta):
-        #Append only the mutation from last metadata
-        metaData = delta(meta[-1], constMetaData)
-    else:
-        metaData = constMetaData
-    meta.append(metaData)
-    json.dump(meta, file(fileName, 'w'))
-    return meta
+    #Append a line of json
+    metaDataJson = json.dumps(constMetaData)
+    if '\n' in metaDataJson:
+        raise Exception('Json contains a return statement, internal error, file a bug\n\tJson: %s' % metaDataJson)
+    mf = file(fileName, 'a')
+    mf.write(u'%s\n' % metaDataJson)
+    mf.close()
+    return constMetaData
 
 def location(fileName):
     meta = {

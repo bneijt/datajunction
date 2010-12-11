@@ -8,10 +8,19 @@ import datajunction
 
 def main(argv):
 
-    parser = argparse.ArgumentParser(description = 'Datajunction backup utility.')
-    parser.add_argument('files', metavar = 'F', type = str, nargs = '+',
-                   help='files to write to output storages')
-    parser.add_argument('--version', help = 'output version number',
+    parser = argparse.ArgumentParser(
+        prog = 'dataj',
+        description = 'Datajunction backup utility.')
+    parser.add_argument('files',
+        metavar = 'F',
+        type = str,
+        nargs = '+',
+        help='files to write to output storages')
+    #parser.add_argument('--recursive',
+    #    help = 'recursive',
+    #    action='store_true')
+    parser.add_argument('--version',
+        help = 'output version number',
         action = 'version',
         version = datajunction.__version__)
 
