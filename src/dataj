@@ -25,7 +25,8 @@ def main(argv):
         version = datajunction.__version__)
 
     args = parser.parse_args()
-
+    #Convert filenames to system filename encoding
+    args.files = [unicode(fileName, sys.getfilesystemencoding()) for fileName in args.files]
     outputs = datajunction.datajunction.loadOutputs()
     for fileName in args.files:
         print fileName
