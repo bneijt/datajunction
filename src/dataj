@@ -28,6 +28,9 @@ def main(argv):
     #Convert filenames to system filename encoding
     args.files = [unicode(fileName, sys.getfilesystemencoding()) for fileName in args.files]
     outputs = datajunction.datajunction.loadOutputs()
+    if not len(outputs):
+        print "Could not initialize any outputs."
+        return 1
     for fileName in args.files:
         print fileName
         fileName = os.path.abspath(fileName)
