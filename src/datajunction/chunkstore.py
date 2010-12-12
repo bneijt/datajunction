@@ -4,6 +4,11 @@ import os
 import metadata
 import datetime
 
+def sha1(value):
+    if isinstance(value, unicode):
+        return unicode(hashlib.sha1(value.encode('UTF-8')).hexdigest())
+    return unicode(hashlib.sha1(value).hexdigest())
+
 class ChunkStorage:
     def __init__(self,
             storagePath = None,
@@ -49,7 +54,7 @@ class ChunkStorage:
         md = self.getMetadata(fileName)
         md['type'] = u'link'
         md['target'] = os.readlink(fileName)
-        digest = unicode(hashlib.sha1(fileName).hexdigest())
+        digest = sha1(fileName)
         metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
         metadata.appendMeta(metadataFileName, md)
 
@@ -63,7 +68,7 @@ class ChunkStorage:
         assert os.path.isdir(fileName)
         md = self.getMetadata(fileName)
         md['type'] = u'directory'
-        digest = unicode(hashlib.sha1(fileName).hexdigest())
+        digest = sha1(fileName)
         metadataFileName = os.path.join(self.storagePath, 'tree', digest[:2], u'%s.json' % digest)
         metadata.appendMeta(metadataFileName, md)
         
