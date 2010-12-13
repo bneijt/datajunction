@@ -17,7 +17,6 @@ class ChunkStorage:
         self.storagePath = storagePath
         self.CHUNK_SIZE = 1024 * 1024
 
-
     def init(self):
         if not os.path.exists(self.storagePath):
             raise Exception('Could not find given storage path for chunkstorage: %s' % self.storagePath)
@@ -30,7 +29,7 @@ class ChunkStorage:
                 self.i = glob.iglob(os.path.join(storagePath, '*/*/*.json')
             def __iter__(self):
                 return self
-            def next():
+            def next(self):
                 return self.i.next()
         return Iter(self.storagePath)
 
