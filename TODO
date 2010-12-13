@@ -1,3 +1,5 @@
+- Move __version to pkg_resource('askldfjal') thingy
+- Add copyright to all source files
 - Add support for device files and other weird ext4 files
 - Add logging support
 - Add support for various modes
