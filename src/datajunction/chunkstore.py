@@ -130,6 +130,6 @@ class ChunkStorage:
         md = self.getMetadata(fileName)
         md['type'] = u'file'
         md['chunks'] = chunkSums
-        md['digest_sha1'] = unicode(completeDigest.hexdigest())
+        md['digest'] = unicode(completeDigest.hexdigest())
         metadataFileName = os.path.join(self.storagePath, 'meta', digest[:2], u'%s.json' % digest)
         metadata.appendMeta(metadataFileName, md)

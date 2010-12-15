@@ -34,7 +34,7 @@ def main(argv):
             print "%010s %s %s %s" % (
                 f['type'],
                 f['ctime'],
-                f.get('digest_sha1', ''),
+                f.get('digest', ''),
                 f['location']['filename'])
     return 0
 
