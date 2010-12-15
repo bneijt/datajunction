@@ -4,6 +4,7 @@ import os
 import metadata
 import datetime
 import glob
+import json
 
 def sha1(value):
     if isinstance(value, unicode):
@@ -24,13 +25,23 @@ class ChunkStorage:
     def files(self):
         '''Iterator over all the files in the chunkstore'''
         class Iter:
-
+            
             def __init__(self, storagePath):
-                self.i = glob.iglob(os.path.join(storagePath, '*/*/*.json')
+                self.i = glob.iglob(os.path.join(storagePath, '*/*/*.json'))
+                self.current = None
             def __iter__(self):
                 return self
             def next(self):
-                return self.i.next()
+                '''Return the next metadata element'''
+                if not self.current:
+                    self.current = file(self.i.next())
+                metadata = self.current.readline()
+                if len(metadata):
+                    return json.loads(metadata)
+                #Close file and next
+                self.current.close()
+                self.current = None 
+                return self.next()
         return Iter(self.storagePath)
 
     def name(self):

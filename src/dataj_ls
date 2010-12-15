@@ -5,6 +5,9 @@ import os
 import argparse
 
 import datajunction
+import pkg_resources
+
+__version__ = pkg_resources.require("datajunction")[0].version
 
 def main(argv):
 
@@ -15,7 +18,11 @@ def main(argv):
         help = 'output version number',
         action = 'version',
         version = datajunction.__version__)
+    parser.add_argument('--json',
+        help = 'output json entries',
+        action = 'store_true')
 
+    args = parser.parse_args()
     outputs = datajunction.datajunction.loadOutputs()
     if not len(outputs):
         print "Could not initialize any outputs."
@@ -23,7 +30,15 @@ def main(argv):
     for output in outputs:
         print ' >', output.name()
         for f in output.files():
-            print dir(f)
+            if args.json:
+                print f
+                continue
+            
+            print "%010s %s %s %s" % (
+                f['type'],
+                f['ctime'],
+                f.get('digest_sha1', ''),
+                f['location']['filename'])
     return 0
 
 if __name__ == '__main__':
