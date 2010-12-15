@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
 from distutils.core import setup
-execfile('src/datajunction/__init__.py')
 
 setup(
     name='datajunction',
-    version=__version__,
+    version='0.3',
     description='Backup utility using hash based chunks and json metadata',
     author='A. Bram Neijt',
     author_email='bram@neijt.nl',
@@ -13,6 +12,6 @@ setup(
     packages=['datajunction'],
     package_dir={'datajunction': 'src/datajunction'},
     scripts=['src/dataj' ],
-    license = __license__,
+    license = 'GPLv3+',
     )
 
