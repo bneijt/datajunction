@@ -5,9 +5,6 @@ import os
 import argparse
 
 import datajunction
-import pkg_resources
-
-__version__ = pkg_resources.require("datajunction")[0].version
 
 def main(argv):
 
